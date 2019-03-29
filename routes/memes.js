@@ -11,7 +11,7 @@ router.post('/',(req,res,next)=>{
 });
 
 router.get('/',(req,res,next)=>{
-    read({},whereToCollectionName)
+    read(whereToCollectionName)
     .then(returnValue => res.send(JSON.stringify(returnValue)))
     .catch(err=> res.send(err));
 });

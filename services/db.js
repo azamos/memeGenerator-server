@@ -20,12 +20,12 @@ function write(thingsToWrite, whereToWrite) {
         .catch(err => console.log(err));
 }
 
-function read(thingToFind = {}, whereToFindIt) {
-    client.connect()
+function read(whereToFindIt, thingToFind = {}) {
+    return client.connect()
         .then(() => {
             const db = client.db(dbName);
             const collection = db.collection(whereToFindIt);
-            collection.find(thingToFind)
+            return collection.find(thingToFind).toArray()
         })
         .catch(err => console.log(err));
 }

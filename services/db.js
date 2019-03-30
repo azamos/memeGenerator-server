@@ -11,7 +11,7 @@ function write(thingsToWrite, whereToWrite) {
         .then(() => {
             const db = client.db(dbName);
             const collection = db.collection(whereToWrite);
-            collection.createIndex({name:'text'},{unique:true});//I specify that name is 'text' to allow text searches
+            collection.createIndex({aliases:'text'},{unique:true});//I specify that name is 'text' to allow text searches
             return collection.insert(thingsToWrite)
         })
         .catch(err => console.log(err));

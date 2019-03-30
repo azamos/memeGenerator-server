@@ -21,19 +21,13 @@ router.get('/:partialString', (req, res, next) => {
     }
     Promise.all([//Explanation: say I have both a user that start with 'cookie', and a meme, I would like to present them both as autoComplete.
         read(memes, req.params.partialString)
-            .then(retrievedMemes => {
-                console.log(retrievedMemes);
-                suggestionsList.push(...retrievedMemes);
-            },
-                err => console.log('not found', err)),
+            .then(retrievedMemes => suggestionsList.push(...retrievedMemes),
+             err => console.log('not found', err)),
         read(users, req.params.partialString)
-            .then(retrievedUsers => {
-                console.log(retrievedUsers);
-                suggestionsList.push(...retrievedUsers);
-            },
-                err => (console.log('not found', err)))
+            .then(retrievedUsers => suggestionsList.push(...retrievedUsers),
+             err => (console.log('not found', err)))
     ])
-        .then(() => res.json(suggestionsList));
+    .then(() => res.json(suggestionsList));
 });
 
 module.exports = router;

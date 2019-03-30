@@ -9,13 +9,13 @@ router.post('/',(req,res,next)=>{
         user.aliases = getAliases(user.name);
       }
      write(req.body, whereToCollectionName)
-    .then(returnValue => res.send(JSON.stringify(returnValue.ops)))
+    .then(returnValue => res.json(returnValue.ops))
     .catch(err=> res.send(err));
 });
 
 router.get('/',(req,res,next)=>{
     read(whereToCollectionName)
-    .then(returnValue => res.send(JSON.stringify(returnValue)))
+    .then(returnValue => res.json(returnValue))
     .catch(err=> res.send(err));
 });
 

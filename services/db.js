@@ -11,18 +11,21 @@ function write(thingsToWrite, whereToWrite) {
         .then(() => {
             const db = client.db(dbName);
             const collection = db.collection(whereToWrite);
-            collection.createIndex({aliases:'text'},{unique:true});//I specify that name is 'text' to allow text searches
+            collection.createIndex({ aliases: 'text' }, { unique: true });//I specify that aliases is 'text' to allow text searches
             return collection.insert(thingsToWrite)
         })
         .catch(err => console.log(err));
 }
 
-function read(whereToFindIt, thingToFind = {}) {
+function read(whereToFindIt, thingToFind) {
     return client.connect()
         .then(() => {
             const db = client.db(dbName);
             const collection = db.collection(whereToFindIt);
-            return collection.find( { $text: { $search: thingToFind } }).toArray()
+            if (thingToFind) {
+                return collection.find({ $text: { $search: thingToFind } }).toArray()
+            }
+            return collection.find({}).toArray()
         })
         .catch(err => console.log(err));
 }

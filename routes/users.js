@@ -16,7 +16,8 @@ router.get('/', (req, res, next) => {
 
 router.post('/',(req,res,next) => {
   for(const user of req.body){
-    user.aliases = getAliases(user.name);
+    user.aliases = [];
+    getAliases(user.name,user.aliases);
   }
   write(req.body, whereToCollectionName)
   .then(users => res.json(users.ops), err=> res.json(err));

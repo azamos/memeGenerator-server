@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/',(req,res,next) => {
   write(req.body, whereToCollectionName)
-  .then(users => res.json(users), err=> res.json(err));
+  .then(users => res.json(users.ops), err=> res.json(err));
 });
 
 module.exports = router;

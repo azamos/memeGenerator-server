@@ -4,8 +4,6 @@ var path = require('path');
 const { read } = require('../services/db');
 const memes = "memes";
 const users = "users";
-//const meme = path.join(memes,':name');
-//const user = path.join(users,':name');
 const memesUrl = 'http://localhost:3000/api/memes';
 const usersUrl = 'http://localhost:3000/api/users';
 

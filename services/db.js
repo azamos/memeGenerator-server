@@ -12,6 +12,7 @@ function write(thingsToWrite, whereToWrite) {
             const db = client.db(dbName);
             const collection = db.collection(whereToWrite);
             collection.createIndex({ aliases: 'text' },{unique:false});//I specify that aliases is 'text' to allow text searches
+                                                                      //unique:false because dups, for example: bluebird123 and bluey645
             collection.createIndex('name',{unique:true});
             return collection.insertMany(thingsToWrite)
         })
@@ -24,6 +25,10 @@ function read(whereToFindIt, thingToFind) {
             const db = client.db(dbName);
             const collection = db.collection(whereToFindIt);
             if (thingToFind) {
+                if(thingToFind.from && thingToFind.to){
+                    
+                    return collection.find().skip(parseInt(thingToFind.from)).limit(parseInt(thingToFind.to - thingToFind.from)).toArray();
+                }
                 return collection.find({ $text: { $search: thingToFind } }).toArray()
             }
             return collection.find({}).toArray()

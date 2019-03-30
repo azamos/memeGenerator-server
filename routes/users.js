@@ -9,14 +9,14 @@ router.get('/', (req, res, next) => {
   .then(users => res.json(users),err=>res.json(err));
 });
 
-// router.get('/:from-:to', (req, res, next) => {
-//   read(whereToCollectionName,{from:req.params.from, to: req.params.to})
-//   .then(users => res.json(users),err=>res.json(err));
-// });
+router.get('/:from-:to', (req, res, next) => {
+  read(whereToCollectionName,{from:req.params.from, to: req.params.to})
+  .then(users => res.json(users))
+  .catch(err=>res.json(err));
+});
 
 router.post('/',(req,res,next) => {
   for(const user of req.body){
-    //user.aliases = [];
     user.aliases = getAliases(user.name);
   }
   write(req.body, whereToCollectionName)

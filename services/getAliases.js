@@ -5,12 +5,3 @@ module.exports = getAliases = (str) => {
 	}
 	return aliases;
 }
-// module.exports = function getAliases(str,aliases=[],i=0){
-// 	if(i<str.length){
-// 		aliases.unshift(str.substr(0,str.length-i));
-// 		setImmediate(getAliases,str,aliases,++i);
-// 	}
-// 	else{
-// 		return aliases;
-// 	}
-// }

@@ -11,11 +11,11 @@ const usersUrl = 'http://localhost:3000/api/users';
 
 router.get('/:partialString', (req, res, next) => {
     let suggestionsList = [];
-    if (memes.includes(req.params.partialString)) {   //say on client side: onChange => fetch(`http://localhost:3000
+    if (memes.startsWith(req.params.partialString)) {   //say on client side: onChange => fetch(`http://localhost:3000
         //    /api/search/${e.target.value}`) and e.t.v === 'm'||'me'||'mem'||'meme'|'memes'
         suggestionsList.push(memesUrl);
     }
-    if (users.includes(req.params.partialString)) {     //say on client side: onChange => fetch(`http://localhost:3000
+    if (users.startsWith(req.params.partialString)) {     //say on client side: onChange => fetch(`http://localhost:3000
         //    /api/search/${e.target.value}`) and e.t.v === 'u'||'us'||'use'||'user'||'users'
         suggestionsList.push(usersUrl);
     }

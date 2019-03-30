@@ -5,8 +5,7 @@ const whereToCollectionName = "memes";
 
 router.post('/',(req,res,next)=>{
     write(req.body,whereToCollectionName)
-    .then(returnValue => {
-        res.send(JSON.stringify(returnValue.ops));})
+    .then(returnValue => res.send(JSON.stringify(returnValue.ops)))
     .catch(err=> res.send(err));
 });
 

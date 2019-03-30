@@ -1,9 +1,30 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
+const {read} = require('../services/db');
+const memes = "memes";
+const users = "users";
+//const meme = path.join(memes,':name');
+//const user = path.join(users,':name');
+const memesUrl = 'http://localhost:3000/api/memes';
+const usersUrl = 'http://localhost:3000/api/users';
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    res.render('not implented yet');
+router.get('/:partialString', (req, res, next) => {
+    let suggestionsList = [];
+    if(memes.includes(req.params.partialString)){   //say on client side: onChange => fetch(`http://localhost:3000
+                                                    //    /search/${e.target.value}`) and e.t.v === 'm'||'me'||'mem'||'meme'|'memes'
+        suggestionsList.push(memesUrl);
+    }
+    if(users.includes(req.params.partialString)){     //say on client side: onChange => fetch(`http://localhost:3000
+                                                   //    /search/${e.target.value}`) and e.t.v === 'u'||'us'||'use'||'user'||'users'
+        suggestionsList.push(usersUrl);
+    }
+    Promise.all(
+        read(memes,req.params.partialString)
+    .then(retrievedMemes => suggestionsList.push(retrievedMemes),err=>console.log('not found',err)),
+    read(users,req.params.partialString)
+    .then(retrievedUsers => suggestionsList.push(retrievedUsers),err=>(console.log('not found',err)))
+    ).then(res.json(suggestionsList));
 });
 
 module.exports = router;

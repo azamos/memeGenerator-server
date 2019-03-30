@@ -7,8 +7,6 @@ function write(thingsToWrite, whereToWrite) {
     if (thingsToWrite === undefined || thingsToWrite === null) {
         return null;
     }
-    //thingsToWrite instanceof Array ? thingsToWrite = thingsToWrite
-    //: thingsToWrite = [thingsToWrite];
     return client.connect()
         .then(() => {
             const db = client.db(dbName);
@@ -16,7 +14,6 @@ function write(thingsToWrite, whereToWrite) {
             collection.createIndex('name',{unique:true});
             return collection.insert(thingsToWrite)
         })
-        //.then(res => JSON.stringify(res.ops))
         .catch(err => console.log(err));
 }
 

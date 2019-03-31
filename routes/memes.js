@@ -7,7 +7,7 @@ const whereToCollectionName = "memes";
 router.post('/',(req,res,next)=>{
     for(const user of req.body){
         user.aliases = [];
-        getAliases(user.name,user.aliases);
+        user.aliases = getAliases(user.name,user.aliases);
       }
      write(req.body, whereToCollectionName)
     .then(returnValue => res.json(returnValue.ops))
@@ -19,5 +19,11 @@ router.get('/',(req,res,next)=>{
     .then(returnValue => res.json(returnValue))
     .catch(err=> res.send(err));
 });
+
+router.get('/:from-:to', (req, res, next) => {
+    read(whereToCollectionName,{from:req.params.from, to: req.params.to})
+    .then(memes => res.json(memes))
+    .catch(err=>res.json(err));
+  });
 
 module.exports = router;

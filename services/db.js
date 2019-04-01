@@ -2,6 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 const dbName = 'memeGeneratorApp';
 const client = new MongoClient(url);
+const maxLimit = 101;
 
 function write(thingsToWrite, whereToWrite) {
     if (thingsToWrite === undefined || thingsToWrite === null) {
@@ -25,11 +26,12 @@ function read(whereToFindIt, thingToFind) {
             const db = client.db(dbName);
             const collection = db.collection(whereToFindIt);
             if (thingToFind) {
-                if(thingToFind.from && thingToFind.to){
+                if(thingToFind.from && thingToFind.to && parseInt(thingToFind.to - thingToFind.from)< maxLimit){
                     
                     return collection.find().skip(parseInt(thingToFind.from)).limit(parseInt(thingToFind.to - thingToFind.from)).toArray();
                 }
-                return collection.find({ $text: { $search: thingToFind } }).toArray()
+                return collection.find({aliases:thingToFind}).toArray()
+                //return collection.find({ $text: { $search: thingToFind } }).toArray()
             }
             return collection.find({}).toArray()
         })

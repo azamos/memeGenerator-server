@@ -7,6 +7,10 @@ const users = "users";
 const memesUrl = 'http://localhost:3000/api/memes';
 const usersUrl = 'http://localhost:3000/api/users';
 
+router.get('/', (req,res,next) => {
+    res.json(['write something to search for']);
+});
+
 router.get('/:partialString', (req, res, next) => {
     let suggestionsList = [];
     if (memes.startsWith(req.params.partialString)) {   //say on client side: onChange => fetch(`http://localhost:3000

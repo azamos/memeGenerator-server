@@ -30,8 +30,9 @@ function read(whereToFindIt, thingToFind) {
                     
                     return collection.find().skip(parseInt(thingToFind.from)).limit(parseInt(thingToFind.to - thingToFind.from)).toArray();
                 }
-                return collection.find({aliases:thingToFind}).toArray()
-                //return collection.find({ $text: { $search: thingToFind } }).toArray()
+                return collection.find({aliases:thingToFind}).limit(5).toArray()
+                //I have limited to five, because say we have 100 users who's username starts with b, it will be slow, and
+                //more importantly, a bad user experience. a suggestion list should be concise.
             }
             return collection.find({}).toArray()
         })

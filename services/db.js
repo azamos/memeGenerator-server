@@ -12,12 +12,22 @@ function write(thingsToWrite, whereToWrite) {
         .then(() => {
             const db = client.db(dbName);
             const collection = db.collection(whereToWrite);
-            collection.createIndex({ aliases: 'text' },{unique:false});//I specify that aliases is 'text' to allow text searches
-                                                                      //unique:false because dups, for example: bluebird123 and bluey645
-            collection.createIndex('name',{unique:true});
+            collection.createIndex({ aliases: 'text' }, { unique: false });//I specify that aliases is 'text' to allow text searches
+            //unique:false because dups, for example: bluebird123 and bluey645
+            collection.createIndex('name', { unique: true });
             return collection.insertMany(thingsToWrite)
         })
         .catch(err => console.log(err));
+}
+
+function update(updatedObj, changes, location) {
+    return client.connect()
+        .then(() => {
+            const db = client.db(dbName);
+            const collection = db.collection(location);
+            return collection.findOneAndUpdate({name:updatedObj},{$set:{...changes}})
+        })
+        .catch(err=>console.log(err));
 }
 
 function read(whereToFindIt, thingToFind) {
@@ -26,11 +36,11 @@ function read(whereToFindIt, thingToFind) {
             const db = client.db(dbName);
             const collection = db.collection(whereToFindIt);
             if (thingToFind) {
-                if(thingToFind.from && thingToFind.to && parseInt(thingToFind.to - thingToFind.from)< maxLimit){
-                    
+                if (thingToFind.from && thingToFind.to && parseInt(thingToFind.to - thingToFind.from) < maxLimit) {
+
                     return collection.find().skip(parseInt(thingToFind.from)).limit(parseInt(thingToFind.to - thingToFind.from)).toArray();
                 }
-                return collection.find({aliases:thingToFind}).limit(5).toArray()
+                return collection.find({ aliases: thingToFind }).limit(5).toArray()
                 //I have limited to five, because say we have 100 users who's username starts with b, it will be slow, and
                 //more importantly, a bad user experience. a suggestion list should be concise.
             }
@@ -41,5 +51,6 @@ function read(whereToFindIt, thingToFind) {
 
 module.exports = {
     write,
-    read
+    read,
+    update
 }

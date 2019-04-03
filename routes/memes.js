@@ -27,6 +27,12 @@ router.get('/', (req, res, next) => {
     .catch(err => res.send(err));
 });
 
+router.get('/:name',(req,res,next) => {
+  read(whereToCollectionName,req.params.name)
+  .then(returnValue => res.json(returnValue))
+    .catch(err => res.send(err));
+});
+
 router.get('/:from-:to', (req, res, next) => {
   read(whereToCollectionName, { from: req.params.from, to: req.params.to })
     .then(memes => res.json(memes))

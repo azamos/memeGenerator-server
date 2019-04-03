@@ -9,6 +9,7 @@ router.post('/', async(req, res, next) => {
   let memes=[];
   let meme = {};
   meme.name = req.body.name;
+  meme.description = req.body.description;
   meme.aliases = [];
   meme.aliases = getAliases(meme.name, meme.aliases);
   if (req.files && req.files.image) {

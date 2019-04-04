@@ -15,6 +15,9 @@ function write(thingsToWrite, whereToWrite) {
             collection.createIndex({ aliases: 'text' }, { unique: false });//I specify that aliases is 'text' to allow text searches
             //unique:false because dups, for example: bluebird123 and bluey645
             collection.createIndex('name', { unique: true });
+            if(thingsToWrite === 'users'){
+                collection.createIndex('email',{unique:true});
+            }
             return collection.insertMany(thingsToWrite)
         })
         .catch(err => console.log(err));
